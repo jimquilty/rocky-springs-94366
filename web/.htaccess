@@ -1,7 +1,10 @@
 RewriteEngine On
-RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
-RewriteCond %{HTTPS} !on
-RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
+# match any URL with www and rewrite it to https without the www
+RewriteCond %{HTTP_HOST} ^(www\.)(.*) [NC]
+RewriteRule (.*) https://%2%{REQUEST_URI} [L,R=301]
+# match urls that are non https (without the www)
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} !^(www\.)(.*) [NC]
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
