@@ -1,7 +1,7 @@
 RewriteEngine On
 
 RewriteCond %{HTTPS} !=on
-RewriteCond %{ENV:HTTPS} off
+RewriteCond %{ENV:HTTPS} !=on
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
